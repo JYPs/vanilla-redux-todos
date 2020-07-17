@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux"; // store에서 state를 가져오기 위해서 store에 연결하는 역할
 import { actionCreators } from "../store";
+import ToDo from "../components/ToDo";
 
 function Home({ toDos, addToDo, ...rest }) {
-  console.log("props::", rest);
+  // console.log("props::", rest);
   const [text, setText] = useState("");
   function onChange(e) {
     setText(e.target.value);
   }
   function onSubmit(e) {
     e.preventDefault();
-    console.log("submit!!", text);
-    addToDo(text);
+    // console.log("submit!!", text);
+    addToDo(text); // 이건 dispatch를 실행하는 함수~~
     setText("");
   }
   return (
@@ -21,7 +22,11 @@ function Home({ toDos, addToDo, ...rest }) {
         <input type="text" value={text} onChange={onChange} />
         <button>Add</button>
       </form>
-      <ul>{JSON.stringify(toDos)}</ul>
+      <ul>
+        {toDos.map((toDo) => (
+          <ToDo {...toDo} key={toDo.id} />
+        ))}
+      </ul>
     </>
   );
 }
